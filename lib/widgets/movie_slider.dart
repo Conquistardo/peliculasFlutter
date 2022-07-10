@@ -79,7 +79,7 @@ class _MovieSlidersState extends State<MovieSliders> {
 
 class _MoviePoster extends StatelessWidget {
   final Movie movie;
-
+//438148
   const _MoviePoster({Key? key, required this.movie}) : super(key: key);
 
   @override
@@ -91,7 +91,7 @@ class _MoviePoster extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'details', arguments: 'movie-instance'),
+            onTap: () => Navigator.pushNamed(context, 'details', arguments: movie),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(
