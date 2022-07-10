@@ -15,14 +15,12 @@ class MoviesProvider extends ChangeNotifier{
   int _popularPage = 0;
 
   MoviesProvider(){
-    print('Movies provider inicializado');
     getNowPlayingMovies();
     getPopularMovies();
   }
 
   Future<String> _getJsonData(String segmento, [int page = 1]) async{
-
-    var url = Uri.https(_baseUrl, segmento, {
+    final url = Uri.https(_baseUrl, segmento, {
       'api_key': _apiKey,
       'language' : _language,
       'page' : '$page'
@@ -58,10 +56,24 @@ class MoviesProvider extends ChangeNotifier{
     final String segmento = '3/movie/$movieId/credits';
     final jsonData = await _getJsonData(segmento, _popularPage);
     final creditsReponse = CreditsReponse.fromJson(jsonData);
-
     moviesCast[movieId] = creditsReponse.cast;
 
     return creditsReponse.cast;
 
   }
+
+  Future<List<Movie>> searchMovies(String query) async{
+    const segmento = '3/search/movie';
+    final url = Uri.https(_baseUrl, segmento, {
+      'api_key': _apiKey,
+      'language' : _language,
+      'query' : query
+    });
+
+    final response = await http.get(url);
+    final searchReponse = SearchMovieResponse.fromJson(response.body);
+
+    return searchReponse.results;
+  }
+
 }
